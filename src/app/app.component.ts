@@ -1,12 +1,11 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
+
+import { OnInit } from '@angular/core';
 import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill/public-api';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import { Route, Routes } from '@angular/router';
-import {Router} from '@angular/router';
-
 import 'pdfmake/build/pdfmake';
-import { TitleStrategy } from '@angular/router';
+import Quill from 'quill';
 const pdfMake = window["pdfMake"];
 
 
@@ -16,25 +15,45 @@ const pdfMake = window["pdfMake"];
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   @ViewChild('htmlData') htmlData!: ElementRef;
-  editorContent = '';
+  // editorContent = '';
+  
+  // addTextBox(){
+  //   console.log('addTextBox getting called');
+  //   // this.editorContent = this.editorContent + `<input type='textbox'>`
+  //   // this.editorContent = this.editorContent + `<strong>Hello People</strong>`
+  //   this.editorContent = this.editorContent + `<span class="textbox">__________<span>`
+  // }
 
-  newestTry(){
-    console.log('newest try getting called');
-    let data: any = document.getElementsByClassName('ql-container')[0];
-    this.generatePdf(data);
-  }
+  ngOnInit(){
+    var toolbarOptions = [
+      ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+      ['blockquote', 'code-block'],
+    
+      [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+      [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+      [{ 'direction': 'rtl' }],                         // text direction
+    
+      [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+    
+      [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+      [{ 'font': [] }],
+      [{ 'align': [] }],
+    
+      ['clean']                                         // remove formatting button
+    ];
 
-  generatePdf(htmlContent:any){
-    html2canvas(htmlContent).then(canvas => {
-      let imgWidth = 290;
-      let imgHeight = (canvas.height * imgWidth)/canvas.width;
-      const contentDataURL = canvas.toDataURL('image/png');
-      let pdf = new jsPDF('p','mm','a4');
-      let position = 0;
-      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
-      pdf.save('demo.pdf');
-    })
+    let quill = new Quill('#main-editor', {
+      modules: {
+        toolbar: toolbarOptions,
+      },
+      theme: 'snow',
+      placeholder: 'Enter your content here...'
+    });
   }
+  
 }
