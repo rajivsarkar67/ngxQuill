@@ -1,8 +1,17 @@
 <h3 style="text-align: center">Quill Js editor</h3>
-<!-- <quill-editor [(ngModel)]="editorContent" id="main-editor" (onEditorChanged)="changedEditor($event)" [styles]="{height: '300px'}"></quill-editor> -->
 <quill-editor #htmlData [(ngModel)]="editorContent" id="main-editor" [styles]="{height: '300px'}"></quill-editor>
+<button (click)="addTextBox()">Add Text Box</button>
+
+<br>
+<br>
+<button (click)="countTextBoxes()">Count Text Boxes</button>
+<br>
+<br>
+
+<div *ngFor="let textBox of myarr">
+    <input [(ngModel)]="replacedContent" type="text">
+    <button (click)="replaceText()">Replace Text</button>
+</div>
 
 <p style="border: '1px solid red';" id="main-show" [innerHTML]="editorContent"></p>
 <p style="border: '1px solid red';">{{editorContent}}</p>
-
-<!-- <button (click)="newestTry()">Newest Try</button> -->
