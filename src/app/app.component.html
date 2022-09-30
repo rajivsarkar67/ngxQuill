@@ -8,10 +8,12 @@
 <br>
 <br>
 
-<div *ngFor="let textBox of myarr">
-    <input [(ngModel)]="replacedContent" type="text">
-    <button (click)="replaceText()">Replace Text</button>
+<div *ngFor="let textBox of myarr; let myIndex = index;">
+    <input #id{{myIndex}} type="text">
+    <button (click)="replaceText(myIndex)">Replace Text</button>
 </div>
+
+<button (click)="publish()">Publish all data with index</button>
 
 <p style="border: '1px solid red';" id="main-show" [innerHTML]="editorContent"></p>
 <p style="border: '1px solid red';">{{editorContent}}</p>

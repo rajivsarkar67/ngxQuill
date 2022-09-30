@@ -9,7 +9,7 @@ import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill/public-api
 export class AppComponent {
   @ViewChild('htmlData') htmlData!: ElementRef;
   editorContent = '';
-  replacedContent = '';
+  // replacedContent = '';
   myarr : number[] = [];
   count = 0;
 
@@ -17,11 +17,24 @@ export class AppComponent {
     this.editorContent = this.editorContent + '<span class="dynamicField">_______________</span>';
     this.myarr.push(1);
   }
-  replaceText(){
-    this.editorContent = this.editorContent.replace('_______________', this.replacedContent);
+  replaceText(myIndex: number){
+    console.log(myIndex);
+    console.log(this.getPosition(this.editorContent, '_______________', myIndex + 1));
+    console.log(this.editorContent[this.getPosition(this.editorContent, '_______________', myIndex + 1)]);
+    // this.editorContent = this.editorContent.replace('_______________', this.replacedContent);
+    // console.log(id${myIndex}.innerText);
   }
   countTextBoxes(){
     this.count = (this.editorContent.match(/_______________/g) || []).length;
-    console.log(this.count);
+    console.log('count = '+this.count);
+  }
+
+  getPosition(string:string, subString:string, index:number) {
+    return string.split(subString, index).join(subString).length;
+  }
+
+  publish(){
+    for(let i=0; i<this.editorContent.length; i++)
+      console.log(i, this.editorContent[i]);
   }
 }
