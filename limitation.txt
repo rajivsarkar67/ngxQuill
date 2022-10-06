@@ -1,0 +1,2 @@
+1. We cannot add textboxes in the middle of text, only at the end of text, because we cannot get the postion of the cursor.
+2. We can delete/alter a textbox from the text but our application will not know it.

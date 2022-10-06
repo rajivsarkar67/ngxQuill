@@ -1,5 +1,7 @@
 <h3 style="text-align: center">Quill Js editor</h3>
 <quill-editor #htmlData [(ngModel)]="editorContent" id="main-editor" [styles]="{height: '300px'}"></quill-editor>
+
+<br>
 <button (click)="addTextBox()">Add Text Box</button>
 
 <br>
@@ -9,8 +11,8 @@
 <br>
 
 <div *ngFor="let textBox of myarr; let myIndex = index;">
-    <input #id{{myIndex}} type="text">
-    <button (click)="replaceText(myIndex)">Replace Text</button>
+    <input #id type="text">
+    <button (click)="replaceText(myIndex, id.value)">Replace Text</button>
 </div>
 
 <button (click)="publish()">Publish all data with index</button>

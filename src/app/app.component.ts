@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill/public-api';
 
 @Component({
@@ -6,23 +6,38 @@ import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill/public-api
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   @ViewChild('htmlData') htmlData!: ElementRef;
   editorContent = '';
   // replacedContent = '';
   myarr : number[] = [];
   count = 0;
 
+  ngOnInit(){
+    // console.log(this.betterReplace('abcxabyz', 'ab', '**',1));
+  }
+
+  betterReplace(string: string, search: string, replace: string, from: number) : string{
+    // console.log("getting called");
+    if(string.length > from){
+      return string.slice(0,from) + string.slice(from).replace(search, replace)
+    }
+    else
+      return '';
+  }
+
   addTextBox(){
     this.editorContent = this.editorContent + '<span class="dynamicField">_______________</span>';
     this.myarr.push(1);
   }
-  replaceText(myIndex: number){
+  replaceText(myIndex: number, value: string){
     console.log(myIndex);
-    console.log(this.getPosition(this.editorContent, '_______________', myIndex + 1));
-    console.log(this.editorContent[this.getPosition(this.editorContent, '_______________', myIndex + 1)]);
-    // this.editorContent = this.editorContent.replace('_______________', this.replacedContent);
+    console.log(value);
+    let positionOfTextBox = this.getPosition(this.editorContent, '_______________', myIndex + 1);
+    console.log(positionOfTextBox);
+    console.log(this.editorContent[positionOfTextBox]);
     // console.log(id${myIndex}.innerText);
+    this.editorContent = this.betterReplace(this.editorContent, '_______________', value, positionOfTextBox);
   }
   countTextBoxes(){
     this.count = (this.editorContent.match(/_______________/g) || []).length;
@@ -37,4 +52,6 @@ export class AppComponent {
     for(let i=0; i<this.editorContent.length; i++)
       console.log(i, this.editorContent[i]);
   }
+
+  
 }
